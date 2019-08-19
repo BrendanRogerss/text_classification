@@ -25,3 +25,5 @@ for batch in train_iter:
     feature, target = batch.text, batch.label
     feature.data.t_(), target.data.sub_(1)  # batch first, index align
     print(feature[0], target[0])
+
+#todo
