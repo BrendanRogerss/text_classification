@@ -31,10 +31,10 @@ def get_vocab():
     f.close()
 
     f = open('data/vocabulary.txt', "r")
-    embed_vocab = f.read()
+    w2v_vocab = f.read()
     f.close()
 
-    embed_vocab = set(embed_vocab.split())
+    w2v_vocab = set(w2v_vocab.split())
     # print(embed_vocab)
 
     lines = neg_lines+pos_lines
@@ -42,11 +42,27 @@ def get_vocab():
 
     # lines = lines.translate(str.maketrans('', '', string.punctuation))
     lines = clean_str(lines)
-    vocab = set(lines.split())
+    data_vocab = set(lines.split())
     # print(vocab)
 
-    dif = vocab.difference(embed_vocab)
-    same = vocab.intersection(embed_vocab)
-    #print(len(vocab), len(same))
+    dif = data_vocab.difference(w2v_vocab)
+    same = data_vocab.intersection(w2v_vocab)
+    print(len(data_vocab), len(same), len(dif))
     #print(same)
-    return same
+    return same, dif
+
+def get_data():
+    f = open('data/rt-polaritydata/rt-polarity.neg', "rb")
+    neg_lines = f.read().decode('utf-8', 'ignore')
+    f.close()
+
+    f = open('data/rt-polaritydata/rt-polarity.pos', "rb")
+    pos_lines = f.read()
+    f.close()
+
+    neg_lines = neg_lines.split('\n')
+    for i in range(len(neg_lines)):
+        neg_lines[i] = clean_str(neg_lines[i])
+
+    print(neg_lines[1])
+

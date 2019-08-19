@@ -150,7 +150,7 @@ if __name__ == "__main__":
     add_unknown_words(w2v, vocab)
     W, word_idx_map = get_W(w2v)
     rand_vecs = {}
-    add_unknown_words(rand_vecs, vocab)
+    add_unknown_wor ds(rand_vecs, vocab)
     W2, _ = get_W(rand_vecs)
     pickle.dump([revs, W, W2, word_idx_map, vocab], open("mr.p", "wb"))
     print("dataset created!")
