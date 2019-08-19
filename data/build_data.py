@@ -51,18 +51,22 @@ def get_vocab():
     #print(same)
     return same, dif
 
+
 def get_data():
     f = open('data/rt-polaritydata/rt-polarity.neg', "rb")
     neg_lines = f.read().decode('utf-8', 'ignore')
     f.close()
 
     f = open('data/rt-polaritydata/rt-polarity.pos', "rb")
-    pos_lines = f.read()
+    pos_lines = f.read().decode('utf-8', 'ignore')
     f.close()
 
     neg_lines = neg_lines.split('\n')
     for i in range(len(neg_lines)):
         neg_lines[i] = clean_str(neg_lines[i])
 
-    print(neg_lines[1])
+    pos_lines = pos_lines.split('\n')
+    for i in range(len(pos_lines)):
+        pos_lines[i] = clean_str(pos_lines[i])
 
+    return pos_lines, neg_lines
