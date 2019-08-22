@@ -26,3 +26,5 @@ with open('lut.p', 'wb') as handle:
 #         f.write(vocab[i].encode('UTF-8') + b'\n')
 #
 #
+
+#todo
