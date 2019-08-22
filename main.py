@@ -1,34 +1,46 @@
-from data import mydatasets
-import torchtext.data as data
 import pickle
-import data.build_data as data
+import data.build_data
+import random
+
 
 batch_size = 64
 
+def separate_target(data):
+    d = []
+    t = []
+    for i in data:
+        d.append(i[0])
+        t.append(i[1])
+    return d, t
 
-# # load MR dataset
-# def mr(text_field, label_field, **kargs):
-#     train_data, dev_data = mydatasets.MR.splits(text_field, label_field)
-#     text_field.build_vocab(train_data, dev_data)
-#     label_field.build_vocab(train_data, dev_data)
-#     train_iter, dev_iter = data.Iterator.splits(
-#                                 (train_data, dev_data),
-#                                 batch_sizes=(batch_size, len(dev_data)),
-#                                 **kargs)
-#     return train_iter, dev_iter
-#
-# # load data
-# print("\nLoading data...")
-# text_field = data.Field(lower=True)
-# label_field = data.Field(sequential=False)
-# train_iter, dev_iter = mr(text_field, label_field, device=-1, repeat=False)
-#
-# for batch in train_iter:
-#     feature, target = batch.text, batch.label
-#     feature.data.t_(), target.data.sub_(1)  # batch first, index align
-#     print(feature[0], target[0])
-#
 
 lut = pickle.load(open("lut.p", "rb"))
 
-data.get_data()
+pos, neg = data.build_data.get_data()
+
+
+pos_vec = []
+for line in pos[:-1]:
+    vec = []
+    for word in line.split(' '):
+        vec.append(lut[word])
+    pos_vec.append([vec, [1, 0]])
+
+
+neg_vec = []
+for line in neg[:-1]:
+    vec = []
+    for word in line.split(' '):
+        vec.append(lut[word])
+    neg_vec.append([vec, [0, 1]])
+
+data = neg_vec+pos_vec
+random.seed(111)
+random.shuffle(data)
+
+percent_split = int(len(data)*0.05)
+train_data, train_target = separate_target(data[:len(data)-(percent_split*2)])
+valid_data, valid_target = separate_target(data[len(data)-(percent_split*2):len(data)-percent_split])
+test_data, test_target = separate_target(data[len(data)-percent_split:])
+
+
