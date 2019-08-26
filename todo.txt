@@ -1,0 +1,12 @@
+pad data DONE
+
+Batch data DONE?
+
+build model
+    work out what the fuck i have to do for this
+    rectified linear units, filter
+    windows (h) of 3, 4, 5 with 100 feature maps each,
+    dropout rate (p) of 0.5, l2 constraint (s) of 3, and
+    mini-batch size of 50.
+
+build training loop
